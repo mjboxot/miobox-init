@@ -173,10 +173,20 @@
                 "type": "num"
             }
         ],
-        "x": 310,
-        "y": 120,
+        "x": 250,
+        "y": 140,
         "wires": [
             []
         ]
+    },
+    {
+        "id": "25b7ff215f228251",
+        "type": "comment",
+        "z": "f0a5f98711127673",
+        "name": "MIOBOX-INIT -> Inicializador de variabels globales y estapa de tiempo.",
+        "info": "# MIOBOX-INIT\n\nInicializador de variables globales y ajsute de estampa de tiempo local.",
+        "x": 280,
+        "y": 60,
+        "wires": []
     }
 ]
