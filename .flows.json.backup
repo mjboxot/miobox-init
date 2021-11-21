@@ -1,0 +1,182 @@
+[
+    {
+        "id": "f0a5f98711127673",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e7b43ff6.5e61e",
+        "type": "subflow",
+        "name": "miobox-init",
+        "info": "# Miobox Inicializador\n\nEl modulo establece variables globales como preparacion para el registro de variables.\n\n## Entrada\n\nSe reciben los datos desde nodo Modbus, S7, o AB.\n\n## Salida\n\nSe obtiene los datos con ajuste de horas y se estampa el tiempo.\n\n`msg.timeStamp` -> Almacena la estampa de tiempo con ajuste de zona horaria.\n\n## Configuraciones\n\nSe puede ajustar la confuracion segun zona horaria. Acepta zonas horarias  negativas(-)",
+        "category": "MIOBOX",
+        "in": [
+            {
+                "x": 100,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "92bb4a5e3004aad8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "d72431d267a3af58",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "HOUR_DIFF",
+                "type": "num",
+                "value": "0",
+                "ui": {
+                    "icon": "font-awesome/fa-clock-o",
+                    "label": {
+                        "en-US": "Zona Horaria"
+                    }
+                }
+            }
+        ],
+        "meta": {
+            "module": "miobox-init",
+            "version": "1.0.0",
+            "author": "mjboxot",
+            "desc": "Nodo de inicialización de variables.",
+            "keywords": "Inicializador,MIOBOX,dataloguer,modbus",
+            "license": "MIT"
+        },
+        "color": "#3FADB5",
+        "inputLabels": [
+            "Datos Modbus u Otros"
+        ],
+        "outputLabels": [
+            "Data + Estampa (Hora Local)"
+        ],
+        "icon": "node-red/timer.svg"
+    },
+    {
+        "id": "64c5dc9a0aa39b5b",
+        "type": "modbus-client",
+        "name": "Test1",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": "10502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true
+    },
+    {
+        "id": "92bb4a5e3004aad8",
+        "type": "change",
+        "z": "e7b43ff6.5e61e",
+        "name": "Topic",
+        "rules": [
+            {
+                "t": "set",
+                "p": "timeStamp",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "e721e95b3f6e487b"
+            ]
+        ]
+    },
+    {
+        "id": "d72431d267a3af58",
+        "type": "function",
+        "z": "e7b43ff6.5e61e",
+        "name": "globalVariable",
+        "func": "global.set(msg.topic,[msg]);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e721e95b3f6e487b",
+        "type": "moment",
+        "z": "e7b43ff6.5e61e",
+        "name": "",
+        "topic": "",
+        "input": "timeStamp",
+        "inputType": "msg",
+        "inTz": "America/Bogota",
+        "adjAmount": "${HOUR_DIFF}",
+        "adjType": "hours",
+        "adjDir": "add",
+        "format": "",
+        "locale": "en_US",
+        "output": "timeStamp",
+        "outputType": "msg",
+        "outTz": "America/Bogota",
+        "x": 400,
+        "y": 160,
+        "wires": [
+            [
+                "d72431d267a3af58"
+            ]
+        ]
+    },
+    {
+        "id": "7cf915280ec8fa97",
+        "type": "subflow:e7b43ff6.5e61e",
+        "z": "f0a5f98711127673",
+        "name": "",
+        "env": [
+            {
+                "name": "HOUR_DIFF",
+                "value": "-5",
+                "type": "num"
+            }
+        ],
+        "x": 310,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    }
+]
