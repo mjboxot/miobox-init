@@ -1,7 +1,7 @@
 {
     "name": "miobox-init",
     "description": "A Node-RED Project",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "dependencies": {
         "node-red-contrib-moment": "4.0.0"
     },

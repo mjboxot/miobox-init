@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "b6bb9180873aecc6",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "e7b43ff6.5e61e",
         "type": "subflow",
         "name": "miobox-init",
@@ -51,6 +59,7 @@
         ],
         "meta": {
             "module": "miobox-init",
+            "type": "node",
             "version": "1.0.0",
             "author": "mjboxot",
             "desc": "Nodo de inicialización de variables.",
@@ -96,7 +105,7 @@
         "id": "92bb4a5e3004aad8",
         "type": "change",
         "z": "e7b43ff6.5e61e",
-        "name": "Topic",
+        "name": "init-topic",
         "rules": [
             {
                 "t": "set",
@@ -111,7 +120,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 210,
+        "x": 220,
         "y": 160,
         "wires": [
             [
@@ -123,14 +132,14 @@
         "id": "d72431d267a3af58",
         "type": "function",
         "z": "e7b43ff6.5e61e",
-        "name": "globalVariable",
-        "func": "global.set(msg.topic,[msg]);\nreturn msg;",
+        "name": "init - globalVariable",
+        "func": "if(msg.topic === \"\" || msg.topic === undefined){\n    throw \"msg.topic es undefined o vacio\"\n}else{\nglobal.set(msg.topic,[msg])};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 620,
+        "x": 610,
         "y": 160,
         "wires": [
             []
@@ -140,7 +149,7 @@
         "id": "e721e95b3f6e487b",
         "type": "moment",
         "z": "e7b43ff6.5e61e",
-        "name": "",
+        "name": "init-date format",
         "topic": "",
         "input": "timeStamp",
         "inputType": "msg",
